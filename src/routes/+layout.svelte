@@ -1,0 +1,83 @@
+<script lang="ts">
+	import { resolve } from '$app/paths';
+	import { page } from '$app/state';
+	import { onMount } from 'svelte';
+	import './layout.css';
+	import favicon from '$lib/assets/favicon.svg';
+
+	let { children } = $props();
+	let theme = $state<'light' | 'dark'>('light');
+	let isScrolled = $state(false);
+
+	function applyTheme(nextTheme: 'light' | 'dark') {
+		theme = nextTheme;
+		document.documentElement.dataset.theme = nextTheme;
+	}
+
+	function toggleTheme() {
+		applyTheme(theme === 'light' ? 'dark' : 'light');
+	}
+
+	onMount(() => {
+		const updateScrolled = () => {
+			isScrolled = window.scrollY > 4;
+		};
+
+		const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+			? 'dark'
+			: 'light';
+		theme = systemTheme;
+		document.documentElement.dataset.theme = systemTheme;
+
+		updateScrolled();
+		window.addEventListener('scroll', updateScrolled, { passive: true });
+
+		return () => {
+			window.removeEventListener('scroll', updateScrolled);
+		};
+	});
+</script>
+
+<svelte:head>
+	<link rel="icon" href={favicon} />
+	<meta name="color-scheme" content="light dark" />
+	<script>
+		if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+			document.documentElement.dataset.theme = 'dark';
+		} else {
+			document.documentElement.dataset.theme = 'light';
+		}
+	</script>
+</svelte:head>
+
+<div class="app-shell">
+	{#if page.url.pathname === '/'}
+		<div aria-hidden="true" class="ambient-glow"></div>
+	{/if}
+	<header class:site-header-scrolled={isScrolled} class="site-header">
+		<div class="site-header-inner app-container py-4">
+			<a
+				class="site-title [font-family:'Iowan_Old_Style','Palatino_Linotype','Book_Antiqua',Palatino,serif] text-xl font-medium tracking-tight"
+				href={resolve('/')}
+			>
+				Peter Whitfield
+			</a>
+			<button
+				aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+				class="theme-toggle"
+				type="button"
+				onclick={toggleTheme}
+			>
+				<span class:theme-icon-active={theme === 'light'} class="theme-icon" aria-hidden="true">
+					☀
+				</span>
+				<span class="theme-toggle-track" aria-hidden="true"></span>
+				<span class:theme-icon-active={theme === 'dark'} class="theme-icon" aria-hidden="true">
+					☾
+				</span>
+			</button>
+		</div>
+	</header>
+
+	{@render children()}
+</div>

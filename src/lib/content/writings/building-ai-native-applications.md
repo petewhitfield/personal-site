@@ -3,6 +3,7 @@ title: Building AI-Native Applications
 date: April 19, 2026
 description: Practical advice for designing applications that work cleanly with agentic loops instead of fighting them.
 section: engineering
+order: 1
 ---
 
 Software has historically been built on three primitives: list views, detail views, and forms. You navigate to a list, pick a record, fill out a form. Nearly every enterprise app (Jira, Salesforce, Workday) is this pattern stacked a hundred times. It works. It's boring. And it's increasingly in the way.

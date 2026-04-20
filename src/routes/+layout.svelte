@@ -57,7 +57,7 @@
 	<header class:site-header-scrolled={isScrolled} class="site-header">
 		<div class="site-header-inner app-container py-4">
 			<a
-				class="site-title [font-family:'Iowan_Old_Style','Palatino_Linotype','Book_Antiqua',Palatino,serif] text-xl font-medium tracking-tight"
+				class="site-title [font-family:'Iowan_Old_Style','Palatino_Linotype','Book_Antiqua',Palatino,serif] text-[1.4rem] font-medium tracking-tight sm:text-[1.5rem]"
 				href={resolve('/')}
 			>
 				Peter Whitfield

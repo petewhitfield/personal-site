@@ -6,6 +6,7 @@ type WritingMetadata = {
 	date: string;
 	description: string;
 	section: 'culture' | 'engineering' | 'architecture';
+	order?: number;
 };
 
 type WritingSection = WritingMetadata['section'];
@@ -51,6 +52,10 @@ function sanitizeUrl(url: string) {
 function getDateSortValue(value: string) {
 	const timestamp = Date.parse(value);
 	return Number.isNaN(timestamp) ? 0 : timestamp;
+}
+
+function getOrderSortValue(value?: number) {
+	return value ?? 0;
 }
 
 function renderToken(value: string, className?: string) {
@@ -175,7 +180,9 @@ function parseFrontmatter(fileContents: string) {
 			title: metadata.title,
 			date: metadata.date,
 			description: metadata.description,
-			section
+			section,
+			order:
+				metadata.order && !Number.isNaN(Number(metadata.order)) ? Number(metadata.order) : undefined
 		},
 		body
 	};
@@ -318,7 +325,15 @@ export async function getWritings() {
 	const markdownFiles = entries.filter((entry) => entry.endsWith('.md')).sort();
 	const writings = await Promise.all(markdownFiles.map(loadWritingFromFile));
 
-	return writings.sort((a, b) => getDateSortValue(b.date) - getDateSortValue(a.date));
+	return writings.sort((a, b) => {
+		const orderDifference = getOrderSortValue(b.order) - getOrderSortValue(a.order);
+
+		if (orderDifference !== 0) {
+			return orderDifference;
+		}
+
+		return getDateSortValue(b.date) - getDateSortValue(a.date);
+	});
 }
 
 export async function getWritingBySlug(slug: string) {

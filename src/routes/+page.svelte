@@ -16,7 +16,7 @@
 	<main>
 		<section aria-label="Links">
 			<p class="app-muted mb-4 max-w-xl text-sm leading-7">
-				I write about AI, architecture, and the shape of software teams as the tools change.
+				I write about AI, systems design, and the evolving shape of software teams.
 			</p>
 			<div class="flex flex-wrap items-center gap-4">
 				<a
@@ -48,48 +48,14 @@
 			</div>
 		</section>
 
-		<section id="culture">
-			<p class="app-muted-soft mt-14 text-sm tracking-[0.2em] uppercase">Culture</p>
+		<section id="thoughts">
+			<p class="app-muted-soft mt-14 text-sm tracking-[0.2em] uppercase">Thoughts</p>
 			<div class="mt-6 space-y-8">
-				{#each data.culture as writing (writing.slug)}
+				{#each data.writings as writing (writing.slug)}
 					<article>
 						<a class="inline-block no-underline" href={resolve(`/thoughts/${writing.slug}`)}>
 							<h2
-								class="app-heading [font-family:'Iowan_Old_Style','Palatino_Linotype','Book_Antiqua',Palatino,serif] text-lg leading-tight font-medium transition hover:opacity-80 sm:text-xl"
-							>
-								{writing.title}
-							</h2>
-						</a>
-					</article>
-				{/each}
-			</div>
-		</section>
-
-		<section id="engineering" class="mt-14">
-			<p class="app-muted-soft text-sm tracking-[0.2em] uppercase">Engineering</p>
-			<div class="mt-6 space-y-8">
-				{#each data.engineering as writing (writing.slug)}
-					<article>
-						<a class="inline-block no-underline" href={resolve(`/thoughts/${writing.slug}`)}>
-							<h2
-								class="app-heading [font-family:'Iowan_Old_Style','Palatino_Linotype','Book_Antiqua',Palatino,serif] text-lg leading-tight font-medium transition hover:opacity-80 sm:text-xl"
-							>
-								{writing.title}
-							</h2>
-						</a>
-					</article>
-				{/each}
-			</div>
-		</section>
-
-		<section id="architecture" class="mt-14">
-			<p class="app-muted-soft text-sm tracking-[0.2em] uppercase">Architecture</p>
-			<div class="mt-6 space-y-8">
-				{#each data.architecture as writing (writing.slug)}
-					<article>
-						<a class="inline-block no-underline" href={resolve(`/thoughts/${writing.slug}`)}>
-							<h2
-								class="app-heading [font-family:'Iowan_Old_Style','Palatino_Linotype','Book_Antiqua',Palatino,serif] text-lg leading-tight font-medium transition hover:opacity-80 sm:text-xl"
+								class="app-heading [font-family:'Iowan_Old_Style','Palatino_Linotype','Book_Antiqua',Palatino,serif] text-base leading-tight font-medium transition hover:opacity-80 sm:text-lg"
 							>
 								{writing.title}
 							</h2>

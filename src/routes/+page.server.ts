@@ -2,15 +2,12 @@ import { getWritings } from '$lib/server/writings';
 
 export async function load() {
 	const writings = await getWritings();
-	const entries = writings.map(({ slug, title, section }) => ({
+	const entries = writings.map(({ slug, title }) => ({
 		slug,
-		title,
-		section
+		title
 	}));
 
 	return {
-		culture: entries.filter((writing) => writing.section === 'culture'),
-		engineering: entries.filter((writing) => writing.section === 'engineering'),
-		architecture: entries.filter((writing) => writing.section === 'architecture')
+		writings: entries
 	};
 }

@@ -18,8 +18,8 @@ servers:
 #
 # Note: If using Cloudflare, set encryption mode in SSL/TLS setting to "Full" to enable CF-to-app encryption.
 proxy:
-  ssl: false
-  host: 20.124.188.186
+  ssl: true
+  host: peterwhitfield.me
   app_port: 3000
 
 # Credentials for your image host.

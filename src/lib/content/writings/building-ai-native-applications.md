@@ -1,6 +1,6 @@
 ---
 title: Building AI-Native Applications
-date: April 19, 2026
+date: April 8, 2026
 description: Practical advice for designing applications that work cleanly with agentic loops instead of fighting them.
 section: engineering
 order: 1

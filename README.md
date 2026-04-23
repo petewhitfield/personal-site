@@ -20,7 +20,7 @@ bun run check
 
 ## Deployment
 
-This site is deployed with Kamal.
+This site is deployed with Kamal. Run the following command to deploy:
 
 ```sh
 kamal deploy

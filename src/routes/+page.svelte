@@ -15,8 +15,8 @@
 <div class="app-container py-10 sm:py-14">
 	<main>
 		<section aria-label="Links">
-			<p class="app-muted mb-4 max-w-xl text-sm leading-7">
-				I write about AI, systems design, and the evolving shape of software teams.
+				<p class="app-muted mb-4 text-sm leading-7">
+				I write to organize my thinking about AI, systems design, and the evolving shape of software teams.
 			</p>
 			<div class="flex flex-wrap items-center gap-4">
 				<a

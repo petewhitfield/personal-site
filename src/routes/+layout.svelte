@@ -64,20 +64,20 @@
 			>
 				Peter Whitfield
 			</a>
-				<button
-					aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
-					class="theme-toggle"
-					type="button"
-					onclick={toggleTheme}
-				>
-					<span class:theme-icon-active={theme === 'light'} class="theme-icon" aria-hidden="true">
-						<SunIcon />
-					</span>
-					<span class="theme-toggle-track" aria-hidden="true"></span>
-					<span class:theme-icon-active={theme === 'dark'} class="theme-icon" aria-hidden="true">
-						<MoonIcon />
-					</span>
-				</button>
+			<button
+				aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+				class="theme-toggle"
+				type="button"
+				onclick={toggleTheme}
+			>
+				<span class:theme-icon-active={theme === 'light'} class="theme-icon" aria-hidden="true">
+					<SunIcon />
+				</span>
+				<span class="theme-toggle-track" aria-hidden="true"></span>
+				<span class:theme-icon-active={theme === 'dark'} class="theme-icon" aria-hidden="true">
+					<MoonIcon />
+				</span>
+			</button>
 		</div>
 	</header>
 

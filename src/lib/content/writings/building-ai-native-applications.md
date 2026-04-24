@@ -1,22 +1,16 @@
 ---
-title: Building AI-Native Applications
+title: Designing APIs for Agents
 date: April 8, 2026
-description: Practical advice for designing applications that work cleanly with agentic loops instead of fighting them.
+description: Practical patterns for API design in the agentic era.
 section: engineering
 order: 1
 ---
 
-Software has historically been built on three primitives: list views, detail views, and forms. You navigate to a list, pick a record, fill out a form. Nearly every enterprise app (Jira, Salesforce, Workday) is this pattern stacked a hundred times. It works. It's boring. And it's increasingly in the way.
+Every API built in the last twenty years was designed for a human developer writing integration code. That assumption is breaking. Increasingly the caller is an AI agent that reasons over responses in a context window, makes dozens of calls per session, and pays a token cost for every awkward ergonomic it has to work around.
 
-Now we've tasted a future where AI agents understand what we're trying to do and go do it, allowing us to focus on unemployment. What!? I mean -- CREATIVE and STRATEGIC work. This goal cannot be achieved by putting a chat bar in an application's existing UI. Oh, so it can write data into your application now instead of just answering questions about it? Good, but not good enough.
+The APIs that win the next decade will be the ones designed for this new caller. Not chat bars bolted onto existing UIs. Not "AI features." APIs whose schemas, events, auth, and enpoints all assume an agent is on the other end.
 
-The challenge is designing applications from the ground up that are built for agentic loops (CLIs like Claude Code, OpenClaw, or Cursor, or UIs like ChatGPT and Gemeni) to use.
-
-Nearly everyone is putting AI into their applications, but why is it that some implementations are genuinely useful, while others feel oddly hollow? Here is some practical advice for building an "AI-native" application: an application that plays nicely with any agentic loop the user has access to.
-
-When writing services, the audience has changed. We are no longer building for human developers, we are building for AI agents.
-
-Let's explore these differences in more detail, using a concrete example: Jira vs. Linear.
+In this essay I'll use Jira and Linear as a running comparison... not to debate which is the better project management tool, but because they're a useful natural experiment. Two mature APIs, built by strong engineering teams, covering the same domain, designed a decade apart.
 
 ## Design for predictable state
 
@@ -286,3 +280,11 @@ The tradeoff is that intent endpoints require you to anticipate the actions agen
 The pattern also composes well with authorization. An intent endpoint like `/sprint/{id}/close` can enforce its own access logic -- this agent can close sprints on Team A but not Team B -- in a way that's much harder to enforce when the same operation is assembled from a dozen separate CRUD calls, each individually authorized.
 
 When designing APIs for agents, expose intent where you can afford to. Every intent endpoint you own is a system prompt you control, a metric you can measure, and a behavior you can improve.
+
+## The UI is optional now
+
+Many teams frame the problem as "how do we add AI to our app?" That framing assumes the app stays roughly how it is and AI gets bolted on. Don't do it!
+
+A traditional application is three things stacked a hundred times: list views and detail views that display data, forms that submit data, and navigation that strings them together. All three are getting replaced. You don't need a list view to find an issue anymore; you ask. You don't need a form to create one; you describe it. You don't pick the next screen; you state the next goal. Take those away and you still have the system of record, the business logic, the permissions, the workflows. This is the actual application.
+
+So the question isn't where AI fits in your product. It's whether any agent your users happen to be running — an enterprise chatbot, a personal assistant, something embedded in their car or TV or glasses — can drive your system cleanly. If yes, the UI becomes one front end among many, and eventually optional. If no, you're building for a caller that's on its way out.

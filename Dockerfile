@@ -14,7 +14,10 @@ WORKDIR /app
 
 COPY --from=build /app/build ./build
 COPY --from=build /app/package.json ./
+COPY --from=build /app/bun.lock ./
 COPY --from=build /app/src/lib/content ./src/lib/content
+
+RUN npm install --omit=dev
 
 ENV NODE_ENV=production
 ENV PORT=3000

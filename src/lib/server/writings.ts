@@ -1,5 +1,6 @@
 import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
+import { createHighlighter, createCssVariablesTheme, type Highlighter } from 'shiki';
 
 type WritingMetadata = {
 	title: string;
@@ -58,72 +59,38 @@ function getOrderSortValue(value?: number) {
 	return value ?? 0;
 }
 
-function renderToken(value: string, className?: string) {
-	const escaped = escapeHtml(value);
-	return className ? `<span class="${className}">${escaped}</span>` : escaped;
+const cssVarTheme = createCssVariablesTheme({ name: 'css-variables', variablePrefix: '--shiki-' });
+
+let highlighterInstance: Highlighter | null = null;
+
+async function getHighlighter() {
+	if (!highlighterInstance) {
+		highlighterInstance = await createHighlighter({
+			themes: [cssVarTheme],
+			langs: ['typescript', 'graphql', 'json']
+		});
+	}
+	return highlighterInstance;
 }
 
-function normalizeCodeLanguage(language: string) {
+function resolveShikiLang(language: string): string | null {
 	const normalized = language.trim().toLowerCase();
-
-	if (['js', 'jsx', 'ts', 'tsx', 'javascript', 'typescript'].includes(normalized)) return 'script';
+	if (['js', 'jsx', 'ts', 'tsx', 'javascript', 'typescript'].includes(normalized))
+		return 'typescript';
 	if (normalized === 'graphql' || normalized === 'gql') return 'graphql';
 	if (normalized === 'json') return 'json';
-
-	return '';
+	return null;
 }
 
-function highlightCode(code: string, language: string) {
-	const normalizedLanguage = normalizeCodeLanguage(language);
+async function highlightCode(code: string, language: string): Promise<string> {
+	const lang = resolveShikiLang(language);
+	if (!lang) return escapeHtml(code);
 
-	if (!normalizedLanguage) {
-		return escapeHtml(code);
-	}
+	const highlighter = await getHighlighter();
+	const html = highlighter.codeToHtml(code, { lang, theme: 'css-variables' });
 
-	const patterns: Record<string, RegExp> = {
-		script:
-			/("([^"\\]|\\.)*"|'([^'\\]|\\.)*'|`([^`\\]|\\.)*`|\/\/.*$|\/\*[\s\S]*?\*\/|\b(?:const|let|var|function|return|if|else|for|while|await|async|import|from|export|default|new|try|catch|throw|class|extends)\b|\b(?:true|false|null|undefined)\b|\b\d+(?:\.\d+)?\b|[{}()[\].,;:+\-*/=<>!&|]+)/gm,
-		graphql:
-			/("([^"\\]|\\.)*"|#[^\n]*|\b(?:query|mutation|subscription|fragment|on)\b|\b(?:true|false|null)\b|\b\d+(?:\.\d+)?\b|[{}()[\].,:!$=|@]+)/gm,
-		json: /("([^"\\]|\\.)*"|\b(?:true|false|null)\b|\b-?\d+(?:\.\d+)?\b|[{}[\],:])/gm
-	};
-
-	const pattern = patterns[normalizedLanguage];
-	let highlighted = '';
-	let lastIndex = 0;
-
-	for (const match of code.matchAll(pattern)) {
-		const token = match[0];
-		const index = match.index ?? 0;
-
-		highlighted += renderToken(code.slice(lastIndex, index));
-
-		let className = 'token-punctuation';
-
-		if (token.startsWith('//') || token.startsWith('/*') || token.startsWith('#')) {
-			className = 'token-comment';
-		} else if (token.startsWith('"') || token.startsWith("'") || token.startsWith('`')) {
-			className =
-				normalizedLanguage === 'json' && token.endsWith(':') ? 'token-property' : 'token-string';
-		} else if (
-			/^(query|mutation|subscription|fragment|on|const|let|var|function|return|if|else|for|while|await|async|import|from|export|default|new|try|catch|throw|class|extends|true|false|null|undefined)$/.test(
-				token
-			)
-		) {
-			className = /^(true|false|null|undefined)$/.test(token) ? 'token-keyword' : 'token-keyword';
-		} else if (/^-?\d+(?:\.\d+)?$/.test(token)) {
-			className = 'token-number';
-		} else if (normalizedLanguage === 'json' && /^"([^"\\]|\\.)*"$/.test(token)) {
-			className = 'token-property';
-		}
-
-		highlighted += renderToken(token, className);
-		lastIndex = index + token.length;
-	}
-
-	highlighted += renderToken(code.slice(lastIndex));
-
-	return highlighted;
+	const innerMatch = html.match(/<pre[^>]*><code[^>]*>([\s\S]*)<\/code><\/pre>/);
+	return innerMatch ? innerMatch[1] : escapeHtml(code);
 }
 
 function applyInlineMarkdown(text: string) {
@@ -188,7 +155,7 @@ function parseFrontmatter(fileContents: string) {
 	};
 }
 
-function renderMarkdown(markdown: string) {
+async function renderMarkdown(markdown: string) {
 	const lines = markdown.split('\n');
 	const toc: TocItem[] = [];
 	const html: string[] = [];
@@ -220,11 +187,11 @@ function renderMarkdown(markdown: string) {
 		blockquoteLines = [];
 	}
 
-	function flushCodeBlock() {
+	async function flushCodeBlock() {
 		if (!inCodeBlock) return;
 		const className = codeLanguage ? ` class="language-${escapeHtml(codeLanguage)}"` : '';
 		const code = codeLines.join('\n');
-		html.push(`<pre><code${className}>${highlightCode(code, codeLanguage)}</code></pre>`);
+		html.push(`<pre><code${className}>${await highlightCode(code, codeLanguage)}</code></pre>`);
 		codeLines = [];
 		codeLanguage = '';
 		inCodeBlock = false;
@@ -233,7 +200,7 @@ function renderMarkdown(markdown: string) {
 	for (const line of lines) {
 		if (line.startsWith('```')) {
 			if (inCodeBlock) {
-				flushCodeBlock();
+				await flushCodeBlock();
 			} else {
 				flushParagraph();
 				flushList();
@@ -296,7 +263,7 @@ function renderMarkdown(markdown: string) {
 	flushParagraph();
 	flushList();
 	flushBlockquote();
-	flushCodeBlock();
+	await flushCodeBlock();
 
 	return {
 		html: html.join('\n'),
@@ -309,7 +276,7 @@ async function loadWritingFromFile(fileName: string): Promise<Writing> {
 	const filePath = path.join(contentDirectory, fileName);
 	const fileContents = await readFile(filePath, 'utf-8');
 	const { metadata, body } = parseFrontmatter(fileContents);
-	const { html, toc } = renderMarkdown(body);
+	const { html, toc } = await renderMarkdown(body);
 
 	return {
 		slug,

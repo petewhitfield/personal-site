@@ -1,14 +1,12 @@
 ---
 title: The API is the Product
 date: April 8, 2026
-description: Agents are the new caller. Here's what that changes.
+description: Agents are the new caller.
 section: engineering
 order: 1
 ---
 
-Every API built in the last twenty years was designed for human developers writing integration code. That assumption is breaking. Increasingly the caller is an AI agent.
-
-The APIs that win the next decade will be the ones designed for this new caller. Not chat bars bolted onto existing UIs. Not "AI features." Something more fundamental is happening: as agents take over what UIs used to do (finding records, creating them, stringing workflows together), the API is becoming the product. The interface your users touch might not even be yours anymore. That shift changes what good API design looks like at every layer.
+Every API built in the last twenty years was designed for human developers writing integration code. That paradigm is breaking fast. The APIs that win the next decade will be the ones designed for the agent caller. As agents take over what UIs used to do (finding records, creating them, stringing workflows together), the API is becoming the product. The interface your users touch might not even be yours anymore. That shift changes what good API design looks like.
 
 I'll use Jira and Linear as a running comparison, not to debate which is the better project management tool, but because they're a useful natural experiment. Two mature APIs, built by strong engineering teams, covering the same domain, designed a decade apart.
 
@@ -278,15 +276,13 @@ This matters for a couple reasons:
 
 When designing APIs for agents, expose intent endpoints for repetitive, high ROI workflows.
 
-## Aside: how agents call the API
+## How agents call the API
 
-Everything above assumes the agent is calling your API directly: constructing requests, parsing responses, reasoning over payloads in its context window. That's the model to design for, because it's the one where the ergonomics actually matter. A well-shaped schema, clean events, short auth path, and intent endpoints all pay off most when the agent is talking to you without a translation layer in between.
-
-But how does the agent know your API exists in the first place, and how does it learn what endpoints to call? Today the answer is usually one of three things. The agent's harness has a skill or tool definition pointing at your API. The agent is invoking your CLI, which wraps the API. Or the agent is connecting through a protocol like MCP.
+How does the agent know your API exists in the first place, and how does it learn what endpoints to call? Today the answer is usually one of three things. The agent's harness has a skill or tool definition pointing at your API. The agent is invoking your CLI, which wraps the API. Or the agent is connecting through a protocol like MCP.
 
 All three eventually bottom out in an HTTP request to your server. The protocol layer decides how the agent finds you; your API design decides whether the call goes well once it arrives. An MCP server in front of a badly-shaped API still has to make the three discovery calls before creating an issue; it just hides them from the agent by doing them itself, which trades agent-side reasoning cost for server-side latency and a more complex wrapper to maintain. Conversely, an API designed along the lines above is trivial to wrap, because there's little to paper over.
 
-## Conclusion
+## The UI is optional
 
 The traditional primitives of list views, detail views, forms, and navigation are all getting replaced. You don't need a list view to find an issue anymore; you ask. You don't need a form to create one; you describe it. You don't pick the next screen; you state the next goal. What's left is the system of record, the business logic, the permissions, the workflows. This is the product.
 

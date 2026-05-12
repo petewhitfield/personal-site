@@ -62,8 +62,7 @@
 </script>
 
 <svelte:head>
-	<title>{data.writing.title} | Peter Whitfield</title>
-	<meta name="description" content={data.writing.description} />
+	<title>{data.writing.title}</title>
 </svelte:head>
 
 <div class="app-container py-10 sm:py-14">
@@ -97,9 +96,11 @@
 				>
 					{data.writing.title}
 				</h1>
-				<p class="app-muted mt-5 max-w-2xl text-lg leading-8">
-					{data.writing.description}
-				</p>
+				{#if data.writing.description}
+					<p class="app-muted mt-5 max-w-2xl text-lg leading-8">
+						{data.writing.description}
+					</p>
+				{/if}
 			</header>
 
 			<div class="prose-shell mt-10">

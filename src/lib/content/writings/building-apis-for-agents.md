@@ -1,12 +1,10 @@
 ---
-title: The API is the Product
+title: Building APIs for Agents
 date: April 8, 2026
-description: Agents are the new caller.
-section: engineering
 order: 1
 ---
 
-Every API built in the last twenty years was designed for human developers writing integration code. That paradigm is breaking fast. The APIs that win the next decade will be the ones designed for the agent caller. As agents take over what UIs used to do (finding records, creating them, stringing workflows together), the API is becoming the product. The interface your users touch might not even be yours anymore. That shift changes what good API design looks like.
+APIs built in the last twenty years were designed for human developers writing integration code. The APIs that win the next decade will be the ones designed for the agent caller. As agents take over what UIs used to do (finding records, creating them, stringing workflows together), the API is becoming the product. The interface users touch to interact with your products might not even be yours anymore. That shift changes what good API design looks like.
 
 I'll use Jira and Linear as a running comparison, not to debate which is the better project management tool, but because they're a useful natural experiment. Two mature APIs, built by strong engineering teams, covering the same domain, designed a decade apart.
 
@@ -284,6 +282,6 @@ All three eventually bottom out in an HTTP request to your server. The protocol 
 
 ## The UI is optional
 
-The traditional primitives of list views, detail views, forms, and navigation are all getting replaced. You don't need a list view to find an issue anymore; you ask. You don't need a form to create one; you describe it. You don't pick the next screen; you state the next goal. What's left is the system of record, the business logic, the permissions, the workflows. This is the product.
+The traditional primitives of list views, detail views, forms, and navigation are fading away. You don't need a list view to find an issue anymore; you ask. You don't need a form to create one; you describe it. You don't pick the next screen; you state the next goal. What's left is the system of record, the business logic, and permissions.
 
-So the question isn't where AI fits in your product. It's whether any agent your users happen to be running, whether that's an enterprise chatbot, a personal assistant, or something embedded in their car or TV or glasses, can drive your system cleanly. If yes, the UI becomes one front end among many, and eventually optional. If no, you're building for a caller that's on its way out.
+The question isn't where AI fits into a product. It's whether any agent your users happen to be running, whether that's an enterprise chatbot, a personal assistant, or something embedded in their car or TV or glasses, can drive your system cleanly. If yes, the UI becomes one front end among many, and eventually optional. If no, you're building for a caller that's on its way out.

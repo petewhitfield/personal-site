@@ -1,16 +1,18 @@
 import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { createHighlighter, createCssVariablesTheme, type Highlighter } from 'shiki';
+import stage1Image from '$lib/assets/stage_1.png';
+import stage2Image from '$lib/assets/stage_2.png';
+import stage3Image from '$lib/assets/stage_3.png';
+import stage4Image from '$lib/assets/stage_4.png';
 
 type WritingMetadata = {
 	title: string;
 	date: string;
-	description: string;
-	section: 'culture' | 'engineering' | 'architecture';
+	description?: string;
+	section?: string;
 	order?: number;
 };
-
-type WritingSection = WritingMetadata['section'];
 
 export type TocItem = {
 	id: string;
@@ -26,6 +28,12 @@ export type Writing = WritingMetadata & {
 };
 
 const contentDirectory = path.resolve('src/lib/content/writings');
+const imageAssetUrls: Record<string, string> = {
+	'stage_1.png': stage1Image,
+	'stage_2.png': stage2Image,
+	'stage_3.png': stage3Image,
+	'stage_4.png': stage4Image
+};
 
 function escapeHtml(value: string) {
 	return value
@@ -50,13 +58,18 @@ function sanitizeUrl(url: string) {
 	return /^(https?:|mailto:|#|\/)/.test(trimmed) ? escapeHtml(trimmed) : '#';
 }
 
+function resolveImageUrl(url: string) {
+	const trimmed = url.trim();
+	return imageAssetUrls[trimmed] ?? trimmed;
+}
+
 function getDateSortValue(value: string) {
 	const timestamp = Date.parse(value);
 	return Number.isNaN(timestamp) ? 0 : timestamp;
 }
 
 function getOrderSortValue(value?: number) {
-	return value ?? 0;
+	return value ?? Number.MAX_SAFE_INTEGER;
 }
 
 const cssVarTheme = createCssVariablesTheme({ name: 'css-variables', variablePrefix: '--shiki-' });
@@ -97,6 +110,10 @@ function applyInlineMarkdown(text: string) {
 	const escaped = escapeHtml(text);
 
 	return escaped
+		.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt: string, url: string) => {
+			const resolvedUrl = resolveImageUrl(url);
+			return `<img src="${sanitizeUrl(resolvedUrl)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async" />`;
+		})
 		.replace(/`([^`]+)`/g, '<code>$1</code>')
 		.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label: string, url: string) => {
 			return `<a href="${sanitizeUrl(url)}">${label}</a>`;
@@ -131,23 +148,16 @@ function parseFrontmatter(fileContents: string) {
 		return acc;
 	}, {});
 
-	if (!metadata.title || !metadata.date || !metadata.description) {
-		throw new Error('Markdown frontmatter must include title, date, and description.');
+	if (!metadata.title || !metadata.date) {
+		throw new Error('Markdown frontmatter must include title and date.');
 	}
-
-	const section: WritingSection =
-		metadata.section === 'architecture'
-			? 'architecture'
-			: metadata.section === 'culture'
-				? 'culture'
-				: 'engineering';
 
 	return {
 		metadata: {
 			title: metadata.title,
 			date: metadata.date,
-			description: metadata.description,
-			section,
+			description: metadata.description || undefined,
+			section: metadata.section || undefined,
 			order:
 				metadata.order && !Number.isNaN(Number(metadata.order)) ? Number(metadata.order) : undefined
 		},
@@ -226,7 +236,7 @@ async function renderMarkdown(markdown: string) {
 			const text = headingMatch[2].trim();
 			const id = slugify(text);
 
-			if (level >= 2) {
+			if (level === 2) {
 				toc.push({ id, level, text });
 			}
 

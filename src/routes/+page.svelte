@@ -6,18 +6,15 @@
 
 <svelte:head>
 	<title>Peter Whitfield</title>
-	<meta
-		name="description"
-		content="A simple personal blog homepage built with SvelteKit and Tailwind."
-	/>
 </svelte:head>
 
 <div class="app-container py-10 sm:py-14">
 	<main>
 		<section aria-label="Links">
-			<p class="app-muted mb-4 text-sm leading-7">
-				I write to organize my thinking about AI, systems design, and the evolving shape of software
-				teams.
+			<p class="app-muted mb-4 max-w-2xl text-sm leading-7">
+				As a software engineer building AI with AI, most of my output is generated. I use this space
+				to force myself to think critically and write, without generative assistance, about what I'm
+				learning and watching unfold in software.
 			</p>
 			<div class="flex flex-wrap items-center gap-4">
 				<a

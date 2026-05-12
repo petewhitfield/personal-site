@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import { page } from '$app/state';
 	import { onMount } from 'svelte';
 	import './layout.css';
 	import favicon from '$lib/assets/favicon.svg';
@@ -53,9 +52,6 @@
 </svelte:head>
 
 <div class="app-shell">
-	{#if page.url.pathname === '/'}
-		<div aria-hidden="true" class="ambient-glow"></div>
-	{/if}
 	<header class:site-header-scrolled={isScrolled} class="site-header">
 		<div class="site-header-inner app-container py-4">
 			<a

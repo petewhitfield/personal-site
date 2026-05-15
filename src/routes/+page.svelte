@@ -11,11 +11,6 @@
 <div class="app-container py-10 sm:py-14">
 	<main>
 		<section aria-label="Links">
-			<p class="app-muted mb-4 max-w-2xl text-sm leading-7">
-				As a software engineer building with AI, most of my output is generated. I use this space to
-				force myself to think critically and write (without generative assistance) about what I'm
-				learning and watching unfold in software.
-			</p>
 			<div class="flex flex-wrap items-center gap-4">
 				<a
 					aria-label="LinkedIn"

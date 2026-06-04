@@ -13,7 +13,7 @@ Everyone has a lightbulb moment with AI that inspires them. Everyone reads the s
 - **Stage 3** — AI that acts, integrated directly into the systems where work happens
 - **Stage 4** — the unknown
 
-Where companies differ is in how they move through the stages. **Technology-first** companies tend to aggressively progress through the stages, backtrack to work on their foundations, continue experimenting forward from the new baseline, and so on in a cycle. **Operationally-grounded** companies progress slowly, watching the whole thing play out with a healthy dose of skepticism and serious doubts that AI could actually affect what they're doing _in the real world_. **Security-conscious** companies are frozen in the early stages, afraid of making a mistake they can't take back.
+Where companies differ is in how they move through the stages. **Technology-first** companies tend to aggressively progress through the stages, backtrack to work on their foundations, continue experimenting forward from the new baseline, and so on in a cycle. **Operationally-grounded** companies progress slowly, watching the whole thing play out with a healthy dose of skepticism and serious doubts that AI could actually affect what they're doing *in the real world*. **Security-conscious** companies are frozen in the early stages, afraid of making a mistake they can't take back.
 
 Most companies are a mixture of all three.
 
@@ -93,7 +93,7 @@ The first decision is integration. The AI has to be able to read from and write 
 
 The second decision is what communication channels to open up to the AI. Integrating custom agents into messaging platforms like Teams and Slack isn't hard these days. But they also provide surfaces for prompt injection. For example: if an enterprise agent is monitoring an email inbox or a phone number, then that agent has a public interface. It is **very** difficult to fully protect against prompt injection. It is better to open up communication channels in places that can be protected with OAuth tokens and/or private networking.
 
-The third decision is authorization, again. Stage 2 was about controlling what the AI could _see_. Stage 3 is about controlling what the AI can _do_, and on whose behalf. When David's AI opens a pull request, should it operate as a service account? Or should it operate as David, with David's permissions? The user's or agent's identity has to flow through the AI to the system being acted on, and that downstream system has to make the final call on whether the action is allowed. Ideally, the messaging platform and downstream system share the same identity provider, making this fairly straightforward. But even if it isn't, taking the time to get it right is essential.
+The third decision is authorization, again. Stage 2 was about controlling what the AI could *see*. Stage 3 is about controlling what the AI can *do*, and on whose behalf. When David's AI opens a pull request, should it operate as a service account? Or should it operate as David, with David's permissions? The user's or agent's identity has to flow through the AI to the system being acted on, and that downstream system has to make the final call on whether the action is allowed. Ideally, the messaging platform and downstream system share the same identity provider, making this fairly straightforward. But even if it isn't, taking the time to get it right is essential.
 
 ## Stage 4 — the unknown
 
@@ -111,7 +111,7 @@ Throughout history, transformative technologies haven't just accelerated existin
 
 Andrej Karpathy [tells a story](https://karpathy.bearblog.dev/sequoia-ascent-2026/) about an app he built called MenuGen. The premise is simple: you sit down at a restaurant, the menu has no pictures, and you don't know what half the dishes are. The app lets you upload a photo of the menu, OCRs the dish names, runs each through an image generator, and re-renders the menu with visuals next to each item. He built the whole thing — frontend, backend, Vercel deployment, authentication, payments. The full stack.
 
-Then he watched someone do the same thing by handing the photo to Gemini with a one-line prompt: _overlay images of the dishes directly onto the menu image_. The model returned a single image: the original menu, with the dish photos rendered into the pixels. No OCR pipeline. No UI. No backend. No deployment. Just input and output.
+Then he watched someone do the same thing by handing the photo to Gemini with a one-line prompt: *overlay images of the dishes directly onto the menu image*. The model returned a single image: the original menu, with the dish photos rendered into the pixels. No OCR pipeline. No UI. No backend. No deployment. Just input and output.
 
 His line: "All of MenuGen is spurious. It's working in the old paradigm. That app shouldn't exist."
 

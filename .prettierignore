@@ -5,5 +5,8 @@ yarn.lock
 bun.lock
 bun.lockb
 
+# Markdown (Prettier normalizes *italic* → _italic_; site renderer uses * only)
+**/*.md
+
 # Miscellaneous
 /static/

@@ -9,6 +9,7 @@ import stage4Image from '$lib/assets/stage_4.png';
 type WritingMetadata = {
 	title: string;
 	date: string;
+	with?: string;
 	description?: string;
 	section?: string;
 	order?: number;
@@ -22,6 +23,7 @@ export type TocItem = {
 
 export type Writing = WritingMetadata & {
 	slug: string;
+	withHtml?: string;
 	body: string;
 	html: string;
 	toc: TocItem[];
@@ -116,7 +118,10 @@ function applyInlineMarkdown(text: string) {
 		})
 		.replace(/`([^`]+)`/g, '<code>$1</code>')
 		.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label: string, url: string) => {
-			return `<a href="${sanitizeUrl(url)}">${label}</a>`;
+			const href = sanitizeUrl(url);
+			const external = href.startsWith('http');
+			const attrs = external ? ' rel="noreferrer" target="_blank"' : '';
+			return `<a href="${href}"${attrs}>${label}</a>`;
 		})
 		.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
 		.replace(/\*([^*]+)\*/g, '<em>$1</em>');
@@ -142,7 +147,7 @@ function parseFrontmatter(fileContents: string) {
 			return acc;
 		}
 
-		const key = line.slice(0, separatorIndex).trim();
+		const key = line.slice(0, separatorIndex).trim().toLowerCase();
 		const value = line.slice(separatorIndex + 1).trim();
 		acc[key] = value;
 		return acc;
@@ -156,6 +161,7 @@ function parseFrontmatter(fileContents: string) {
 		metadata: {
 			title: metadata.title,
 			date: metadata.date,
+			with: metadata.with || undefined,
 			description: metadata.description || undefined,
 			section: metadata.section || undefined,
 			order:
@@ -291,6 +297,7 @@ async function loadWritingFromFile(fileName: string): Promise<Writing> {
 	return {
 		slug,
 		...metadata,
+		withHtml: metadata.with ? applyInlineMarkdown(metadata.with) : undefined,
 		body,
 		html,
 		toc

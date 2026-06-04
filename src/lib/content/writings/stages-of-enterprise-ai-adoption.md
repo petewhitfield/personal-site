@@ -4,7 +4,7 @@ date: May 13, 2026
 order: 2
 ---
 
-In the AI consulting practice at ABS Group, I'm getting the chance to watch companies all over the world work through the journey of adopting AI. The journey is unique to every company. And yet, some things are remarkably similar.
+In the AI consulting practice at ABS Group, I get to watch companies around the world work through the journey of adopting AI. The journey is unique to every company. And yet, some things are remarkably similar.
 
 Everyone has a lightbulb moment with AI that inspires them. Everyone reads the same articles about how [most enterprise adoptions fail](https://mlq.ai/media/quarterly_decks/v0.1_State_of_AI_in_Business_2025_Report.pdf). And everyone moves through a similar set of stages, trying to figure out how to land in that golden minority that gets significant return-on-investment from AI:
 
@@ -13,9 +13,9 @@ Everyone has a lightbulb moment with AI that inspires them. Everyone reads the s
 - **Stage 3** — AI that acts, integrated directly into the systems where work happens
 - **Stage 4** — the unknown
 
-Where companies differ is in how they move through the stages. **Technology-first** companies tend to aggressively progress through the stages, backtrack to work on their foundations, continue experimenting forward from the new baseline, and so on in a cycle. **Operationally-grounded** companies progress methodically, watching the whole thing play out with a healthy dose of skepticism and serious doubts that AI could actually affect what they're doing _in the real world_. **Security-conscious** companies are frozen in the early stages, afraid of making a mistake they can't take back.
+Where companies differ is in how they move through the stages. **Technology-first** companies tend to aggressively progress through the stages, backtrack to work on their foundations, continue experimenting forward from the new baseline, and so on in a cycle. **Operationally-grounded** companies progress slowly, watching the whole thing play out with a healthy dose of skepticism and serious doubts that AI could actually affect what they're doing _in the real world_. **Security-conscious** companies are frozen in the early stages, afraid of making a mistake they can't take back.
 
-Most companies seem to be a mixture of all three.
+Most companies are a mixture of all three.
 
 ## Stage 1 — AI as a trusted advisor
 

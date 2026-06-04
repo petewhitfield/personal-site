@@ -1,12 +1,13 @@
 ---
 title: Building APIs for Agents
 date: April 8, 2026
+with: [Jeremy Brown](https://www.linkedin.com/in/jeremybrown471/)
 order: 1
 ---
 
-APIs built in the last twenty years were designed for human developers writing integration code. I believe the APIs that will win the next decade will be the ones designed for a new caller: the agent loop. Agents are taking over what UIs used to do (finding records, creating them, stringing workflows together). When agents interface with applications, the API is the product. This shift changes the parameters when designing an API.
+User-facing APIs built in the last 20 years were built for human developers building UIs. Now, as AI agents take over what UIs have traditionally done (finding records, creating records, stringing workflows together), we have a new primary caller to optimize for — and a different set of trade-offs.
 
-I'll use Jira and Linear as a running comparison, not to reopen the debate on which is the better project management tool, but because they provide a useful experiment. Two mature APIs, built by strong engineering teams, covering the same domain, designed a decade apart.
+We'll use Jira and Linear as a running comparison, not to debate which is better, but because they provide a useful experiment. Two mature APIs, built by strong engineering teams, in the same domain, designed a decade apart.
 
 ## Design for predictable state
 
@@ -282,4 +283,4 @@ All three eventually bottom out in an HTTP request to your server. The protocol 
 
 ## The UI is optional
 
-The familiar primitives of list views, detail views, forms, and navigation are no longer the only way people interact with software. The UI still matters, for now, but I expect that to change. What will remain is the system of record, business logic, and permissions. And what will matter is whether any agent a user chooses can easily drive the API, regardless of if that's an enterprise chatbot, a personal assistant, or something embedded in wearables.
+The familiar primitives of list views, detail views, forms, and navigation are no longer the only way people interact with software. The UI still matters, for now, but we expect that to change. What will remain is the system of record, business logic, and permissions. And what will matter is whether any agent a user chooses can easily drive the API, regardless of if it's an enterprise chatbot, a personal assistant, or something embedded in wearables.

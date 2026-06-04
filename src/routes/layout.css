@@ -295,12 +295,14 @@ button,
 	margin-top: 0.45rem;
 }
 
+.article-meta a,
 .prose-shell a {
 	text-decoration: underline;
 	text-decoration-color: var(--link-underline);
 	text-underline-offset: 0.18em;
 }
 
+.article-meta a:hover,
 .prose-shell a:hover {
 	text-decoration-color: var(--link-hover);
 }

@@ -90,12 +90,20 @@
 
 		<article class="min-w-0">
 			<header class="app-rule-bottom pb-8">
-				<p class="app-muted-soft text-sm">{data.writing.date}</p>
-				<h1
-					class="app-heading mt-3 [font-family:'Iowan_Old_Style','Palatino_Linotype','Book_Antiqua',Palatino,serif] text-4xl leading-tight font-medium tracking-tight sm:text-5xl"
-				>
-					{data.writing.title}
-				</h1>
+				<div class="space-y-3">
+					<p class="app-muted-soft text-sm">{data.writing.date}</p>
+					<h1
+						class="app-heading [font-family:'Iowan_Old_Style','Palatino_Linotype','Book_Antiqua',Palatino,serif] text-4xl leading-tight font-medium tracking-tight sm:text-5xl"
+					>
+						{data.writing.title}
+					</h1>
+					{#if data.writing.withHtml}
+						<p class="article-meta app-muted-soft text-sm">
+							With <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+							{@html data.writing.withHtml}
+						</p>
+					{/if}
+				</div>
 				{#if data.writing.description}
 					<p class="app-muted mt-5 max-w-2xl text-lg leading-8">
 						{data.writing.description}

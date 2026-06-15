@@ -336,3 +336,27 @@ button,
 	padding-left: 1rem;
 	color: var(--muted);
 }
+
+.prose-shell img,
+.prose-shell .theme-image {
+	display: block;
+	max-width: 100%;
+	height: auto;
+	margin: 1.5rem auto 0;
+}
+
+.prose-shell .theme-image img {
+	margin: 0 auto;
+}
+
+.prose-shell .theme-image .theme-image-dark {
+	display: none;
+}
+
+:root[data-theme='dark'] .prose-shell .theme-image .theme-image-light {
+	display: none;
+}
+
+:root[data-theme='dark'] .prose-shell .theme-image .theme-image-dark {
+	display: block;
+}

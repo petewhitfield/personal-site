@@ -5,9 +5,9 @@ with: [Jeremy Brown](https://www.linkedin.com/in/jeremybrown471/)
 order: 1
 ---
 
-User-facing APIs built in the last 20 years were built for human developers building UIs. Now, as AI agents take over what UIs have traditionally done (finding records, creating records, stringing workflows together), we have a new primary caller to optimize for — and a different set of trade-offs.
+User-facing APIs are normally designed for human developers building interfaces. As AI agents increasingly take on the work that UIs once handled (locating records, creating them, and stitching workflows together), we have a new caller to consider. The agent caller brings a different set of priorities and constraints.
 
-We'll use Jira and Linear as a running comparison, not to debate which is better, but because they provide a useful experiment. Two mature APIs, built by strong engineering teams, in the same domain, designed a decade apart.
+We'll use Jira and Linear as a running comparison, not to debate which is better, but because they provide a useful experiment. Two mature APIs, built by strong engineering teams, in the same domain, a decade apart.
 
 ## Design for predictable state
 
@@ -41,7 +41,7 @@ POST /rest/api/3/issue
 }
 ```
 
-The IDs returned from those discovery calls (10001, 10042, 31) are opaque numerics that mean nothing outside the context of the current session. If the agent needs to reference the same project or transition across tool calls, it has to maintain an ID mapping layer in its context window. That mapping is state the agent is forced to carry, and state that can go stale.
+The IDs returned from those discovery calls (10001, 10042, 31) are opaque numerics that mean nothing outside the context of the current session. If the agent needs to reference the same project or transition across tool calls, it has to maintain an ID map in its context window.
 
 Linear’s approach removes most of the discovery overhead. In the common case, one lookup to resolve teamId is enough before calling issueCreate, because the schema is fixed and status can default automatically if stateId is omitted. If the agent wants a specific workflow status, it needs one additional workflowStates lookup for that team; otherwise there are no Jira-style custom required field lookups before writing.
 
@@ -203,7 +203,7 @@ When designing APIs for agents, meter by work done, not just requests made.
 
 ## Authenticate simply
 
-Jira's OAuth 2.0 flow has an extra step that catches almost everyone: after exchanging the authorization code for a token, you can't make API calls yet. You must first resolve the cloudId, a UUID identifying which Atlassian site the token is valid for, by calling a separate endpoint, then embed it in every subsequent URL.
+Jira's OAuth 2.0 flow has an extra step. After exchanging the authorization code for a token, you can't make API calls yet. You must first resolve the cloudId, a UUID identifying which Atlassian site the token is valid for, by calling a separate endpoint, then embed it in every subsequent URL.
 
 ```text
 // Step 1: exchange code for token
@@ -217,7 +217,7 @@ GET https://api.atlassian.com/oauth/token/accessible-resources
 GET https://api.atlassian.com/ex/jira/1324a887-45db-1bf4-1e99-ef0ff456d421/rest/api/3/issue/ENG-1
 ```
 
-Linear's API endpoint is `https://api.linear.app/graphql`. Always. No tenant routing, no site resolution, no URL construction. Each token is workspace-scoped.
+Linear's API endpoint is `https://api.linear.app/graphql`. Always. Each token is workspace-scoped.
 
 ```text
 // Linear: token → call API. Done.
@@ -225,9 +225,9 @@ POST https://api.linear.app/graphql
 Authorization: Bearer {token}
 ```
 
-This is a small thing per call, but it compounds. Every agent integrating with Jira has to implement the cloudId resolution step, cache the result somewhere, and rebuild URLs for every request. Every bug in that machinery is an auth bug, which means it's painful to debug and easy to get subtly wrong. Linear's model has none of that surface area because there's nothing to resolve.
+This is a small thing per call, but it compounds. Every agent integrating with Jira has to implement the cloudId resolution step, cache the result somewhere, and rebuild URLs for every request.
 
-When designing APIs for agents, keep the path from token to first successful call as short as possible.
+When designing APIs for agents, keep the path from first token to first authenticated call as short as possible.
 
 ## Authorize deeply
 
@@ -283,4 +283,4 @@ All three eventually bottom out in an HTTP request to your server. The protocol 
 
 ## The UI is optional
 
-The familiar primitives of list views, detail views, forms, and navigation are no longer the only way people interact with software. The UI still matters, for now, but we expect that to change. What will remain is the system of record, business logic, and permissions. And what will matter is whether any agent a user chooses can easily drive the API, regardless of if it's an enterprise chatbot, a personal assistant, or something embedded in wearables.
+The familiar primitives of list views, detail views, and forms are no longer the only way end-users interact with software. UIs still have a place, for now, but we expect that to change. Before long, APIs will service more goal-based agents than UIs. Build your APIs in such a way that they can be easily driven by any agent a user chooses, regardless of if that is a chatbot, a personal assistant, a wearable, or anything else.

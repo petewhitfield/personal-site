@@ -1,6 +1,10 @@
 import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { createHighlighter, createCssVariablesTheme, type Highlighter } from 'shiki';
+import costDark from '$lib/assets/cost_dark.png';
+import costLight from '$lib/assets/cost_light.png';
+import latencyProfileDark from '$lib/assets/latency_profile_dark.png';
+import latencyProfileLight from '$lib/assets/latency_profile_light.png';
 import stage1Image from '$lib/assets/stage_1.png';
 import stage2Image from '$lib/assets/stage_2.png';
 import stage3Image from '$lib/assets/stage_3.png';
@@ -35,6 +39,17 @@ const imageAssetUrls: Record<string, string> = {
 	'stage_2.png': stage2Image,
 	'stage_3.png': stage3Image,
 	'stage_4.png': stage4Image
+};
+
+const themeImageAssetUrls: Record<string, { light: string; dark: string }> = {
+	'latency_profile.png': {
+		light: latencyProfileLight,
+		dark: latencyProfileDark
+	},
+	'cost.png': {
+		light: costLight,
+		dark: costDark
+	}
 };
 
 function escapeHtml(value: string) {
@@ -108,14 +123,31 @@ async function highlightCode(code: string, language: string): Promise<string> {
 	return innerMatch ? innerMatch[1] : escapeHtml(code);
 }
 
+function renderImageMarkdown(alt: string, url: string) {
+	const trimmed = url.trim();
+	const themeImage = themeImageAssetUrls[trimmed];
+
+	if (themeImage) {
+		const safeAlt = escapeHtml(alt);
+		return `<div class="theme-image" role="img" aria-label="${safeAlt}"><img class="theme-image-light" src="${sanitizeUrl(themeImage.light)}" alt="${safeAlt}" loading="lazy" decoding="async" /><img class="theme-image-dark" src="${sanitizeUrl(themeImage.dark)}" alt="${safeAlt}" loading="lazy" decoding="async" /></div>`;
+	}
+
+	const resolvedUrl = resolveImageUrl(url);
+	return `<img src="${sanitizeUrl(resolvedUrl)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async" />`;
+}
+
+function parseImageMarkdown(text: string) {
+	const match = text.trim().match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+	return match ? { alt: match[1], url: match[2] } : null;
+}
+
 function applyInlineMarkdown(text: string) {
 	const escaped = escapeHtml(text);
 
 	return escaped
-		.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt: string, url: string) => {
-			const resolvedUrl = resolveImageUrl(url);
-			return `<img src="${sanitizeUrl(resolvedUrl)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async" />`;
-		})
+		.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt: string, url: string) =>
+			renderImageMarkdown(alt, url)
+		)
 		.replace(/`([^`]+)`/g, '<code>$1</code>')
 		.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label: string, url: string) => {
 			const href = sanitizeUrl(url);
@@ -270,6 +302,15 @@ async function renderMarkdown(markdown: string) {
 			flushParagraph();
 			flushList();
 			flushBlockquote();
+			continue;
+		}
+
+		const imageMarkdown = parseImageMarkdown(line);
+		if (imageMarkdown) {
+			flushParagraph();
+			flushList();
+			flushBlockquote();
+			html.push(renderImageMarkdown(imageMarkdown.alt, imageMarkdown.url));
 			continue;
 		}
 

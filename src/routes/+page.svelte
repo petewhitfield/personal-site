@@ -41,12 +41,12 @@
 			</div>
 		</section>
 
-		<section id="thoughts">
-			<p class="app-muted-soft mt-14 text-sm tracking-[0.2em] uppercase">Thoughts</p>
+		<section id="notes">
+			<p class="app-muted-soft mt-14 text-sm tracking-[0.2em] uppercase">Notes</p>
 			<div class="mt-6 space-y-8">
 				{#each data.writings as writing (writing.slug)}
 					<article>
-						<a class="inline-block no-underline" href={resolve(`/thoughts/${writing.slug}`)}>
+						<a class="inline-block no-underline" href={resolve(`/notes/${writing.slug}`)}>
 							<h2
 								class="app-heading [font-family:'Iowan_Old_Style','Palatino_Linotype','Book_Antiqua',Palatino,serif] text-base leading-tight font-medium transition hover:opacity-80 sm:text-lg"
 							>

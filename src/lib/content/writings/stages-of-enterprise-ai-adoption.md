@@ -1,21 +1,18 @@
 ---
 title: Stages of Enterprise AI Adoption
 date: May 13, 2026
+with: [Matthew Mowrer](https://www.linkedin.com/in/matt-mowrer-7500a03/)
 order: 2
 ---
 
-In the AI consulting practice at ABS Group, I get to watch companies around the world work through the journey of adopting AI. The journey is unique to every company. And yet, some things are remarkably similar.
+In the AI consulting practice at ABS Group, I've had the chance to watch companies around the world work through the journey of adopting AI. The journey is unique, of course, to every company. But some things are the same.
 
-Everyone has a lightbulb moment with AI that inspires them. Everyone reads the same articles about how [most enterprise adoptions fail](https://mlq.ai/media/quarterly_decks/v0.1_State_of_AI_in_Business_2025_Report.pdf). And everyone moves through a similar set of stages, trying to figure out how to land in that golden minority that gets significant return-on-investment from AI:
+Everyone has lightbulb moments where the power AI blows their minds. Everyone reads the same articles warning that [most enterprise adoptions fail](https://mlq.ai/media/quarterly_decks/v0.1_State_of_AI_in_Business_2025_Report.pdf). And everyone moves through a similar set of stages, trying to figure out how to land in that golden minority that gets significant return-on-investment from AI:
 
 - **Stage 1** — AI as a trusted advisor, sitting in a browser tab
 - **Stage 2** — AI that knows your company, grounded in your knowledge and standards
 - **Stage 3** — AI that acts, integrated directly into the systems where work happens
 - **Stage 4** — the unknown
-
-Where companies differ is in how they move through the stages. **Technology-first** companies tend to aggressively progress through the stages, backtrack to work on their foundations, continue experimenting forward from the new baseline, and so on in a cycle. **Operationally-grounded** companies progress slowly, watching the whole thing play out with a healthy dose of skepticism and serious doubts that AI could actually affect what they're doing *in the real world*. **Security-conscious** companies are frozen in the early stages, afraid of making a mistake they can't take back.
-
-Most companies are a mixture of all three.
 
 ## Stage 1 — AI as a trusted advisor
 
@@ -113,14 +110,14 @@ Andrej Karpathy [tells a story](https://karpathy.bearblog.dev/sequoia-ascent-202
 
 Then he watched someone do the same thing by handing the photo to Gemini with a one-line prompt: *overlay images of the dishes directly onto the menu image*. The model returned a single image: the original menu, with the dish photos rendered into the pixels. No OCR pipeline. No UI. No backend. No deployment. Just input and output.
 
-His line: "All of MenuGen is spurious. It's working in the old paradigm. That app shouldn't exist."
+Andrej's quote: "All of MenuGen is spurious. It's working in the old paradigm. That app shouldn't exist."
 
-A lot of what's being built right now is scaffolding around model limitations — temporary plumbing that exists only because the model couldn't do the whole thing yet. As models improve, entire product categories will collapse into a prompt. The question isn't "how do we build the old apps faster?" It's "which apps should stop existing?"
+A lot of what's being built right now is scaffolding around model limitations — temporary plumbing that exists only because the model couldn't do the whole thing yet. As models improve, entire product categories will collapse into a prompt.
 
 ### How to enable Stage 4
 
-Right now, almost everything being built with AI is some version of doing existing work faster. Speeding up existing work is the natural place to start. But over time, the winners won't be the companies that squeeze the most efficiency out of old workflows. They'll be the companies that find bigger, genuinely new problems to solve.
+Most of what is being built with AI right now is some version of doing existing work faster. Speeding up existing work is a natural place to start. But over time, the winners won't be the companies that squeeze the most efficiency out of old workflows. They'll be the companies that find bigger, genuinely new problems to solve.
 
-It is worth bringing people through stages 1-3 because that process changes how people think about their work. They will have ideas that wouldn't have occurred to them otherwise. I think that it is the people on the front lines — the ones using AI day in and day out, pushing it to its limits — that will be the most likely to unlock the next big thing.
+It is worth bringing people through stages 1-3 because that process changes how people think about their work. They will have ideas that wouldn't have occurred to them otherwise. It is the people on the front lines; the ones using AI day in and day out, pushing it to its limits, that will be the most likely to unlock the next big thing.
 
 We enable Stage 4 is by building the conditions for it in stages 1-3.

@@ -18,7 +18,7 @@ The best part: speed and stability aren't a tradeoff. The fast teams are also th
 
 Now the bad news. Software delivery is one of the most consequential things a company does… and one of the things companies are worst at.
 
-In [How Big Things Get Done](https://www.tailwindproject.com/blog/how-big-things-get-done), bent Flyvbjerg studied more than 16,000 large projects, asking how many finish on budget, on time, and on expectations. Half land on budget. Only 8.5% hit budget and schedule together. And just 0.5% — 1 in 200 — finish on budget, on time, and meet expectations.
+In [How Big Things Get Done](https://www.tailwindproject.com/blog/how-big-things-get-done), Bent Flyvbjerg studied more than 16,000 large projects, asking how many finish on budget, on time, and on expectations. Half land on budget. Only 8.5% hit budget and schedule together. And just 0.5% — 1 in 200 — finish on budget, on time, and meet expectations.
 
 Software is among the worst categories, and it fails with a fat tail. About 18% of IT projects overrun their budgets by more than 50%, and that group overruns by 447% on average. **Software projects that go wrong tend to go catastrophically wrong.**
 

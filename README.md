@@ -1,6 +1,6 @@
-# personal-site
+# Personal Website
 
-My personal website, built with SvelteKit.
+Simple AI & software engineering blog, built with SvelteKit.
 
 ## Development
 
@@ -20,7 +20,7 @@ bun run check
 
 ## Deployment
 
-This site is deployed with Kamal. Run the following command to deploy:
+This site is deployed with Kamal. Run the following command to deploy. You will need the local `.env` from a team member.
 
 ```sh
 kamal deploy
